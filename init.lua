@@ -33,6 +33,7 @@ local plugins = {
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  { "f-person/git-blame.nvim", event = "VeryLazy" },
 }
 local opts = {
   install = { colorscheme = { "habamax" } },
