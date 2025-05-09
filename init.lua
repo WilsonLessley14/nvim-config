@@ -4,6 +4,10 @@ vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 vim.cmd("set number")
 
+-- change leader for window management
+-- <shift>_w is basically capital W
+vim.api.nvim_set_keymap('n', '<s-w>', '<c-w>', { noremap = true })
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
