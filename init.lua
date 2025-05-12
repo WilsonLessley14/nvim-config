@@ -36,7 +36,6 @@ local plugins = {
   'nvim-telescope/telescope.nvim', tag = '0.1.8',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   { "f-person/git-blame.nvim", event = "VeryLazy" },
   {
     "nvim-tree/nvim-tree.lua",
@@ -48,7 +47,36 @@ local plugins = {
     config = function()
       require("nvim-tree").setup {}
     end,
-  }
+  },
+  {
+    "neovim/nvim-lspconfig", -- REQUIRED: for native Neovim LSP integration
+    lazy = false, -- REQUIRED: tell lazy.nvim to start this plugin at startup
+    dependencies = {
+      -- main one
+      { "ms-jpq/coq_nvim", branch = "coq" },
+
+      -- 9000+ Snippets
+      { "ms-jpq/coq.artifacts", branch = "artifacts" },
+
+      -- lua & third party sources -- See https://github.com/ms-jpq/coq.thirdparty
+      -- Need to **configure separately**
+      { 'ms-jpq/coq.thirdparty', branch = "3p" }
+      -- - shell repl
+      -- - nvim lua api
+      -- - scientific calculator
+      -- - comment banner
+      -- - etc
+    },
+    init = function()
+      vim.g.coq_settings = {
+          auto_start = true, -- if you want to start COQ at startup
+          -- Your COQ settings here
+      }
+    end,
+    config = function()
+      -- Your LSP settings here
+    end,
+  },
 }
 local opts = {
   install = { colorscheme = { "habamax" } },
@@ -59,12 +87,5 @@ require("lazy").setup(plugins, opts)
 local builtin = require("telescope.builtin")
 vim.keymap.set('n', '<C-p>', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-
-local config = require("nvim-treesitter.configs")
-config.setup({
-  ensure_installed = { "c", "cpp", "lua", "yaml" },
-  highlight = { enable = true },
-  indent = { enable = true },
-})
 
 vim.cmd.colorscheme "habamax"
