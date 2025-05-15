@@ -4,10 +4,6 @@ vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 vim.cmd("set number")
 
--- change leader for window management
--- <shift>_w is basically capital W
-vim.api.nvim_set_keymap('n', '<s-w>', '<c-w>', { noremap = true })
-
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -87,5 +83,12 @@ require("lazy").setup(plugins, opts)
 local builtin = require("telescope.builtin")
 vim.keymap.set('n', '<C-p>', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+
+-- change command for window management
+vim.api.nvim_set_keymap('n', '<leader>w', '<c-w>', { noremap = true })
+
+-- leave :term mode with ESC
+vim.api.nvim_set_keymap('t', '<ESC>', '<C-\\><C-n>', { noremap = true})
+
 
 vim.cmd.colorscheme "habamax"
